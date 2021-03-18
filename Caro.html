@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <style>
+        input[type=text] {
+            width: 20px;
+        }
+
+        button {
+            width: 30px;
+            height: 30px;
+        }
+
+        #play {
+            width: 80px;
+            height: 30px;
+        }
+    </style>
+
+
+</head>
+<body>
+<input type="text" id="row" name="row"/>Hàng
+<input type="text" id="colume" name="colume"/>Cột
+<input type="button" onclick="playgame()" id="play" value="Play"/>
+<div id="main">
+
+</div>
+<script>
+    var array = [];
+    var flag = true;
+
+    function render(row, colume) {
+
+        var resume = "<table cellpadding='0' cellspacing='0'>";
+        for (let i = 0; i < row; i++) {
+            resume += "<tr>";
+            for (let j = 0; j < colume; j++) {
+                resume += "<td>";
+                let id = "" + i + j;
+                resume += "<button id='" + id + "' onclick='caro(this.id)'></button>";
+                resume += "<td>";
+            }
+            resume += "<tr>";
+        }
+        resume += "</table>";
+        array += resume;
+        return array;
+    }
+
+    function playgame() {
+        var rows = document.getElementById("row").value;
+        var columes = document.getElementById("colume").value;
+        document.getElementById("main").innerHTML = render(rows, columes);
+    }
+
+    function caro(id) {
+        if (flag) {
+            document.getElementById(id).innerHTML = "X";
+        } else {
+            document.getElementById(id).innerHTML = "O";
+        }
+        flag = !flag;
+    }
+    let win = false;
+    for (let i = 1; i < 9; i++) {
+        for (let j = 1; j < 9; j++) {
+            if (array[i][j] == "X") {
+                if (array[i + 1][j] == "X" && array[i + 2][j] == "X" && array[i + 3][j] == "X") {
+                    win = true;
+                    break;
+                } else if (array[i][j + 1] == "X" && array[i][j + 2] == "X" && array[i][j + 3] == "X") {
+                    win = true;
+                    break;
+                } else if (array[i - 1][j + 1] == "X" && array[i - 2][j + 2] == "X" && array[i - 3][j + 3] == "X") {
+                    win = true;
+                    break;
+                } else if (array[i + 1][j + 1] == "X" && array[i + 2][j + 2] == "X" && array[i + 3][j + 3] == "X") {
+                    win = true;
+                    break;
+                }
+            }
+        }
+        if (win) {
+            alert("Win")
+        }
+    }
+
+</script>
+</body>
+</html>
